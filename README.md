@@ -3,12 +3,12 @@ An Android Custom gallery which allows to set and do limited or unlimited multi-
 It also returns the selected pictures for your tasks. It uses Android Database Cursor API and queries images from device storage asynchronously using RxJava and returns them based on provided page size value when its scrolled.
 It can be used as a foundation for your own Custom Gallery Android Library.
 
-# Features
- 1) Not a fixed dependency to be included in your project to increase redundancy.
- 2) Its flexible to be converted in any library/SDK or modular form as per your requirement.
- 3) Modifications/Enhancements can be made as required.
- 4) It would be a part of your project while not implying any 3rd-party involvement.
+## Features
+ - Its not a fixed dependency to be included in your project to increase redundancy.
+ - Its flexible to be converted in any library/SDK or modular form as per your requirement.
+ - Modifications/Enhancements can be made as required.
+ - **It would be a part of your project while not implying any 3rd-party involvement.**
  
  
 
-Cheerio !!
+**Cheerio !!**
