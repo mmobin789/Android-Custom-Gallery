@@ -1,0 +1,65 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">120dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <!-- Styles -->
+
+    <dimen name="text_link">13sp</dimen>
+    <dimen name="btn_width">85dp</dimen>
+    <dimen name="top_bar_links">14sp</dimen>
+    <dimen name="list_item_title">15sp</dimen>
+    <dimen name="card_heading">16sp</dimen>
+    <dimen name="model_heading">17sp</dimen>
+    <dimen name="text_bold_size">20sp</dimen>
+
+    <!-- Item Detail -->
+    <dimen name="item_detail_margins">5dp</dimen>
+    <dimen name="item_detail_Image_slider_height">360dp</dimen>
+
+    <dimen name="text_margin">16dp</dimen>
+
+    <dimen name="text_size_top_headings">23sp</dimen>
+    <dimen name="text_size_top_sub_headings">16sp</dimen>
+    <dimen name="text_size_section_headings">15sp</dimen>
+    <dimen name="text_size_list_items_title">15sp</dimen>
+    <dimen name="text_size_model_heading">17sp</dimen>
+    <dimen name="text_app_font_bold">23.3sp</dimen>
+    <dimen name="text_app_font_regular">14sp</dimen>
+    <dimen name="text_large">18sp</dimen>
+    <dimen name="text_medium">15sp</dimen>
+    <dimen name="text_moderate">12sp</dimen>
+    <dimen name="text_small">9sp</dimen>
+    <dimen name="text_keyboard_number">24sp</dimen>
+    <dimen name="divider_size">0.5dp</dimen>
+
+    <dimen name="pin_entry_height">36sp</dimen>
+
+    <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_moderate">8dp</dimen>
+    <dimen name="padding_medium">12dp</dimen>
+    <dimen name="padding_large">16dp</dimen>
+
+    <dimen name="height_large">80dp</dimen>
+    <dimen name="width_item_list_fields">200dp</dimen>
+    <dimen name="width_category_title_item_list">80dp</dimen>
+
+    <dimen name="dp18">18dp</dimen>
+    <dimen name="dp15">15dp</dimen>
+    <dimen name="dp32">32dp</dimen>
+    <dimen name="dp256">256dp</dimen>
+
+    <dimen name="dp10">10dp</dimen>
+
+    <dimen name="actionBarSize">50dp</dimen>
+
+    <dimen name="padding_item_detail">20dp</dimen>
+
+    <dimen name="padding_circular_profile_view">2dp</dimen>
+
+    <dimen name="circular_profile_size">80dp</dimen>
+
+
+</resources>
