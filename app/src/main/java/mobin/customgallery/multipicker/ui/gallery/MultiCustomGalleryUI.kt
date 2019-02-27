@@ -112,7 +112,7 @@ class MultiCustomGalleryUI : AppCompatActivity() {
     }
 
 
-    private fun getSelectedItemsCount() = pictures.filter { it.isSelected }.size
+    private fun getSelectedItemsCount() = adapter.getSelectedItems().size
 
     private fun selectionLimitReached() {
         showToast("10 pictures selected already.")
