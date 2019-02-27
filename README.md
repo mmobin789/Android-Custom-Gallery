@@ -1,4 +1,4 @@
-# Android-Custom-Gallery
+# Android Custom Gallery
 
 :camera:
 
