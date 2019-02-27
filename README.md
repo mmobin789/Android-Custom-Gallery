@@ -12,4 +12,4 @@ It can be used as a foundation for your own Custom Gallery Android Library.
  
  
 
-### Cheerio !!
+#### Cheerio !!
