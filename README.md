@@ -7,8 +7,9 @@ It can be used as a foundation for your own Custom Gallery Android Library.
  - Its not a fixed dependency to be included in your project to increase redundancy.
  - Its flexible to be converted in any library/SDK or modular form as per your requirement.
  - Modifications/Enhancements can be made as required.
+ - Code is written in a highly efficient and clean way to maximize readability and minimize throughput.
  - **It would be a part of your project while not implying any 3rd-party involvement.**
  
  
 
-**Cheerio !!**
+### Cheerio !!
