@@ -13,6 +13,12 @@ It can be used as a foundation for your own Custom Gallery Android Library.
  - Code is written in a highly efficient and clean way to maximize readability and minimize throughput.
  - **It would be a part of your project while not implying any 3rd-party involvement.**
  
+ ### Usage in Live Android Apps
+    
+ :camera: [HideBox](https://play.google.com/store/apps/details?id=com.hidebox.mobileapp) 
  
+ 
+
+
 
 **Cheerio !!**
