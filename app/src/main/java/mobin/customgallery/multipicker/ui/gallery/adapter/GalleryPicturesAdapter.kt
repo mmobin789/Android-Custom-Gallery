@@ -13,6 +13,7 @@ class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerV
 
     private lateinit var onClick: (Int, Boolean) -> Unit
     private lateinit var onLongClick: (Int) -> Unit
+    private lateinit var onClickComplete: () -> Unit
     private var isSelectionEnabled = false
     private val selectedIndexList = ArrayList<Int>(10)  // only 10 items are selectable.
 
@@ -22,6 +23,10 @@ class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerV
 
     fun setOnLongClickListener(onLongClick: (Int) -> Unit) {
         this.onLongClick = onLongClick
+    }
+
+    fun setOnClickCompleteListener(onClickComplete: () -> Unit) {
+        this.onClickComplete = onClickComplete
     }
 
     private fun checkSelection(position: Int) {
@@ -42,6 +47,7 @@ class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerV
             val position = vh.adapterPosition
             onClick(position, isSelectionEnabled)
             checkSelection(position)
+            onClickComplete()
 
         }
         vh.containerView.setOnLongClickListener {
@@ -49,6 +55,7 @@ class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerV
             isSelectionEnabled = true
             onLongClick(position)
             checkSelection(position)
+            onClickComplete()
 
 
 

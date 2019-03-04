@@ -36,7 +36,11 @@ class MultiCustomGalleryUI : AppCompatActivity() {
 
     private fun requestReadStoragePermission() {
         val readStorage = Manifest.permission.READ_EXTERNAL_STORAGE
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, readStorage) != PackageManager.PERMISSION_GRANTED) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(
+                this,
+                readStorage
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             requestPermissions(arrayOf(readStorage), 3)
         } else init()
     }
@@ -68,11 +72,8 @@ class MultiCustomGalleryUI : AppCompatActivity() {
 
                 adapter.notifyItemChanged(position)
 
-                updateToolbar(getSelectedItemsCount())
-
 
             }
-
         }
         adapter.setOnLongClickListener { position ->
             val picture = adapter.getItem(position)
@@ -88,8 +89,11 @@ class MultiCustomGalleryUI : AppCompatActivity() {
             }
             adapter.notifyItemChanged(position)
 
-            updateToolbar(getSelectedItemsCount())
 
+        }
+
+        adapter.setOnClickCompleteListener {
+            updateToolbar(getSelectedItemsCount())
         }
         rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
