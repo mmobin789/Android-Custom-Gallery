@@ -21,7 +21,7 @@
         android:id="@+id/vSelected"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#8024a1ff"
+        android:background="#80008577"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

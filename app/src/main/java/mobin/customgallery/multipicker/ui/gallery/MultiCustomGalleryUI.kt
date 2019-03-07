@@ -52,49 +52,20 @@ class MultiCustomGalleryUI : AppCompatActivity() {
         rv.layoutManager = layoutManager
         rv.addItemDecoration(SpaceItemDecoration(8))
         pictures = ArrayList(galleryViewModel.getGallerySize(this))
-        adapter = GalleryPicturesAdapter(pictures)
+        adapter = GalleryPicturesAdapter(pictures, 10)
         rv.adapter = adapter
 
 
 
-        adapter.setOnClickListener { position, isSelectionEnabled ->
-            if (isSelectionEnabled) {
-                val picture = adapter.getItem(position)
-                picture.isSelected = if (picture.isSelected) {
-                    false
-                } else {
-                    val selectionCriteriaSuccess = getSelectedItemsCount() < 10
-                    if (!selectionCriteriaSuccess)
-                        selectionLimitReached()
-
-                    selectionCriteriaSuccess
-                }
-
-                adapter.notifyItemChanged(position)
-
-
-            }
-        }
-        adapter.setOnLongClickListener { position ->
-            val picture = adapter.getItem(position)
-
-            picture.isSelected = if (picture.isSelected) {
-                false
-            } else {
-                val selectionCriteriaSuccess = getSelectedItemsCount() < 10
-                if (!selectionCriteriaSuccess)
-                    selectionLimitReached()
-
-                selectionCriteriaSuccess
-            }
-            adapter.notifyItemChanged(position)
-
-
+        adapter.setOnClickListener { galleryPicture ->
+            showToast(galleryPicture.path)
         }
 
-        adapter.setOnClickCompleteListener {
+
+        adapter.setAfterSelectionListener {
             updateToolbar(getSelectedItemsCount())
         }
+
         rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (layoutManager.findLastVisibleItemPosition() == pictures.lastIndex) {
@@ -118,10 +89,6 @@ class MultiCustomGalleryUI : AppCompatActivity() {
 
     private fun getSelectedItemsCount() = adapter.getSelectedItems().size
 
-    private fun selectionLimitReached() {
-        showToast("10 pictures selected already.")
-    }
-
 
     private fun loadPictures(pageSize: Int) {
         galleryViewModel.getImagesFromGallery(this, pageSize) {
@@ -136,23 +103,21 @@ class MultiCustomGalleryUI : AppCompatActivity() {
     }
 
     private fun updateToolbar(selectedItems: Int) {
-        val title = getString(R.string.txt_gallery)
         val data = if (selectedItems == 0) {
             tvDone.visibility = View.GONE
-            title
+            getString(R.string.txt_gallery)
         } else {
             tvDone.visibility = View.VISIBLE
-            "$title $selectedItems/10"
+            "$selectedItems/${adapter.selectionLimit}"
         }
-
         tvTitle.text = data
     }
 
     override fun onBackPressed() {
-        if (!adapter.removedSelection()) {
-            super.onBackPressed()
-        } else {
+        if (adapter.removedSelection()) {
             updateToolbar(0)
+        } else {
+            super.onBackPressed()
         }
 
 
