@@ -10,7 +10,7 @@ It can be used with in your app or as a foundation for your own android library.
 ## Features
  - Shows all images smoothly from device storage.
  - Multiple Image Selection.
- - Gallery Image Deletion.
+ - Single Gallery Image Deletion.
  - Pagination.
  - Its not a fixed dependency to be included in your project to increase redundancy.
  - Its flexible to be converted in any library/SDK or modular form as per your requirement.
