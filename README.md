@@ -9,6 +9,7 @@ It can be used as a foundation for your own Custom Gallery Android Library.
 ## Features
  - Shows all images smoothly from device storage.
  - Multiple Image Selection.
+ - Supports gallery Image Deletion.
  - Pagination.
  - Its not a fixed dependency to be included in your project to increase redundancy.
  - Its flexible to be converted in any library/SDK or modular form as per your requirement.
