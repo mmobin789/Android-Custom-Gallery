@@ -11,7 +11,7 @@ import mobin.customgallery.multipicker.GlideApp
 import mobin.customgallery.multipicker.R
 import mobin.customgallery.multipicker.ui.gallery.model.GalleryPicture
 
-class GalleryPicturesAdapter(private val list: List<GalleryPicture>, val selectionLimit: Int) :
+class GalleryPicturesAdapter(private val list: List<GalleryPicture>, var selectionLimit: Int) :
         RecyclerView.Adapter<GVH>() {
 
     private lateinit var onClick: (GalleryPicture) -> Unit
