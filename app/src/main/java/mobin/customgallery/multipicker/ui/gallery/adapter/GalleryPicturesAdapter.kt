@@ -11,13 +11,32 @@ import mobin.customgallery.multipicker.GlideApp
 import mobin.customgallery.multipicker.R
 import mobin.customgallery.multipicker.ui.gallery.model.GalleryPicture
 
-class GalleryPicturesAdapter(private val list: List<GalleryPicture>, var selectionLimit: Int) :
-        RecyclerView.Adapter<GVH>() {
+class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerView.Adapter<GVH>() {
+
+    init {
+        initSelectedIndexList()
+    }
+
+    constructor(list: List<GalleryPicture>, selectionLimit: Int) : this(list) {
+        setSelectionLimit(selectionLimit)
+    }
 
     private lateinit var onClick: (GalleryPicture) -> Unit
     private lateinit var afterSelectionCompleted: () -> Unit
     private var isSelectionEnabled = false
-    private val selectedIndexList = ArrayList<Int>(selectionLimit)  // only limited items are selectable.
+    private lateinit var selectedIndexList: ArrayList<Int> // only limited items are selectable.
+    private var selectionLimit = 0
+
+
+    private fun initSelectedIndexList() {
+        selectedIndexList = ArrayList(selectionLimit)
+    }
+
+    fun setSelectionLimit(selectionLimit: Int) {
+        this.selectionLimit = selectionLimit
+        removedSelection()
+        initSelectedIndexList()
+    }
 
     fun setOnClickListener(onClick: (GalleryPicture) -> Unit) {
         this.onClick = onClick
@@ -100,11 +119,14 @@ class GalleryPicturesAdapter(private val list: List<GalleryPicture>, var selecti
 
     }
 
+    fun getSelectionLimit() = selectionLimit
+
+
     private fun selectionLimitReached(context: Context) {
         Toast.makeText(
-                context,
-                "${getSelectedItems().size}/$selectionLimit selection limit reached.",
-                Toast.LENGTH_SHORT
+            context,
+            "${getSelectedItems().size}/$selectionLimit selection limit reached.",
+            Toast.LENGTH_SHORT
         ).show()
     }
 

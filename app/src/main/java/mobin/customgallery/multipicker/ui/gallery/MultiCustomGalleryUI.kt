@@ -56,7 +56,6 @@ class MultiCustomGalleryUI : AppCompatActivity() {
         rv.adapter = adapter
 
 
-
         adapter.setOnClickListener { galleryPicture ->
             showToast(galleryPicture.path)
         }
@@ -108,7 +107,7 @@ class MultiCustomGalleryUI : AppCompatActivity() {
             getString(R.string.txt_gallery)
         } else {
             tvDone.visibility = View.VISIBLE
-            "$selectedItems/${adapter.selectionLimit}"
+            "$selectedItems/${adapter.getSelectionLimit()}"
         }
         tvTitle.text = data
     }
