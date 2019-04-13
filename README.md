@@ -16,6 +16,7 @@ It can be used with in your app or as a foundation for your own android library.
  - Its flexible to be converted in any library/SDK or modular form as per your requirement.
  - Modifications/Enhancements can be made as required.
  - Highly decoupled,optimized and clean code.
+ - No Obfuscation Required (Proguard/Dexguard).
  - **It would be a part of your project while not implying any 3rd-party involvement.**
  
  ### How to use ?
