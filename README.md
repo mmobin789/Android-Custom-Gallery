@@ -23,7 +23,7 @@ It can be used with in your app or as a foundation for your own android library.
    
    Just clone the project in Android Studio and run it. 
   
-   For details read more on [medium]().
+   For details read more on [medium](https://android.jlelse.eu/custom-gallery-for-android-af2437b227da).
      
  ### Usage in Live Android Apps
     
