@@ -2,7 +2,7 @@
 
 :camera:
 
-An Android Custom gallery which allows to set and do limited or unlimited multi-selection on pictures and retrieve selections. Its based on MVVM clean architecture and supports pagination based on page size.
+A reactive android Custom gallery which allows to set and do limited or unlimited multi-selection on pictures and retrieve selections. Its based on MVVM clean architecture and supports pagination based on page size.
 It also returns the selected pictures for your tasks. It uses Android Database Cursor API to query images from device storage asynchronously using RxJava and returns them based on provided page size value when its scrolled.
 It also provides open to implement delete option to permanently remove pictures from gallery.
 It can be used with in your app or as a foundation for your own android library.
