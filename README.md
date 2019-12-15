@@ -30,6 +30,8 @@ It can be used with in your app or as a foundation for your own android library.
     
  :camera: [HideBox](https://play.google.com/store/apps/details?id=com.hidebox.mobileapp) 
  
+ :camera: [Salam Planet](https://play.google.com/store/apps/details?id=com.tsmc.salamplanet.view) 
+ 
  
 
 
