@@ -1,15 +1,18 @@
 package mobin.customgallery.multipicker.ui.gallery
 
 import android.Manifest
+import android.content.ContentUris
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_multi_gallery_ui.*
@@ -22,9 +25,8 @@ import mobin.customgallery.multipicker.ui.gallery.viewmodel.GalleryViewModel
 
 class MultiCustomGalleryUI : AppCompatActivity() {
 
-
     private lateinit var adapter: GalleryPicturesAdapter
-    private lateinit var galleryViewModel: GalleryViewModel
+    private val galleryViewModel: GalleryViewModel by viewModels<GalleryViewModel>()
 
     private lateinit var pictures: ArrayList<GalleryPicture>
 
@@ -46,7 +48,7 @@ class MultiCustomGalleryUI : AppCompatActivity() {
     }
 
     private fun init() {
-        galleryViewModel = ViewModelProviders.of(this)[GalleryViewModel::class.java]
+        // galleryViewModel = ViewModelProviders.of(this)[GalleryViewModel::class.java] /** @deprecated */
         updateToolbar(0)
         val layoutManager = GridLayoutManager(this, 3)
         rv.layoutManager = layoutManager
@@ -55,11 +57,9 @@ class MultiCustomGalleryUI : AppCompatActivity() {
         adapter = GalleryPicturesAdapter(pictures, 10)
         rv.adapter = adapter
 
-
         adapter.setOnClickListener { galleryPicture ->
-            showToast(galleryPicture.path)
+            showToast(getImageUri(galleryPicture.path).path!!)
         }
-
 
         adapter.setAfterSelectionListener {
             updateToolbar(getSelectedItemsCount())
@@ -68,7 +68,7 @@ class MultiCustomGalleryUI : AppCompatActivity() {
         rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (layoutManager.findLastVisibleItemPosition() == pictures.lastIndex) {
-                    loadPictures(25)
+                    loadPictures(5)
                 }
             }
         })
@@ -81,13 +81,11 @@ class MultiCustomGalleryUI : AppCompatActivity() {
         ivBack.setOnClickListener {
             onBackPressed()
         }
-        loadPictures(25)
-
+        loadPictures(5)
     }
 
 
     private fun getSelectedItemsCount() = adapter.getSelectedItems().size
-
 
     private fun loadPictures(pageSize: Int) {
         galleryViewModel.getImagesFromGallery(this, pageSize) {
@@ -96,9 +94,7 @@ class MultiCustomGalleryUI : AppCompatActivity() {
                 adapter.notifyItemRangeInserted(pictures.size, it.size)
             }
             Log.i("GalleryListSize", "${pictures.size}")
-
         }
-
     }
 
     private fun updateToolbar(selectedItems: Int) {
@@ -118,13 +114,15 @@ class MultiCustomGalleryUI : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
-
-
     }
 
     private fun showToast(s: String) = Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             init()
         else {
@@ -133,4 +131,12 @@ class MultiCustomGalleryUI : AppCompatActivity() {
         }
     }
 
+    companion object {
+        fun getImageUri(path: String): Uri {
+            return ContentUris.withAppendedId(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                path.toLong()
+            )
+        }
+    }
 }
