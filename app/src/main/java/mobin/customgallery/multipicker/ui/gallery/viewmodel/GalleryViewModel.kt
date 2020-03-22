@@ -1,6 +1,7 @@
 package mobin.customgallery.multipicker.ui.gallery.viewmodel
 
 import android.content.Context
+import android.database.Cursor
 import android.provider.MediaStore
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -17,69 +18,47 @@ class GalleryViewModel : ViewModel() {
     private var rowsToLoad = 0
     private var allLoaded = false
 
-    fun getImagesFromGallery(context: Context, pageSize: Int, list: (List<GalleryPicture>) -> Unit) {
+    fun getImagesFromGallery(
+        context: Context,
+        pageSize: Int,
+        list: (List<GalleryPicture>) -> Unit
+    ) {
         compositeDisposable.add(
-                Single.fromCallable {
-                    fetchGalleryImages(context, pageSize)
-                }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            list(it)
-                        }, {
-                            it.printStackTrace()
-                        })
+            Single.fromCallable {
+                fetchGalleryImages(context, pageSize)
+            }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    list(it)
+                }, {
+                    it.printStackTrace()
+                })
         )
     }
 
-
     fun getGallerySize(context: Context): Int {
-        val columns =
-                arrayOf(MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID) //get all columns of type images
-        val orderBy = MediaStore.Images.Media.DATE_TAKEN //order data by date
-
-        val cursor = context.contentResolver.query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
-                null, "$orderBy DESC"
-        ) //get all data in Cursor by sorting in DESC order
-
+        val cursor = getGalleryCursor(context)
         val rows = cursor!!.count
         cursor.close()
         return rows
-
-
     }
 
     private fun fetchGalleryImages(context: Context, rowsPerLoad: Int): List<GalleryPicture> {
         val galleryImageUrls = LinkedList<GalleryPicture>()
-        val columns = arrayOf(MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID) //get all columns of type images
-        val orderBy = MediaStore.Images.Media.DATE_TAKEN //order data by date
-
-        val cursor = context.contentResolver.query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
-                null, "$orderBy DESC"
-        ) //get all data in Cursor by sorting in DESC order
-
-        Log.i("GalleryAllLoaded", "$allLoaded")
+        val cursor = getGalleryCursor(context)
 
         if (cursor != null && !allLoaded) {
-
             val totalRows = cursor.count
 
             allLoaded = rowsToLoad == totalRows
-
             if (rowsToLoad < rowsPerLoad) {
                 rowsToLoad = rowsPerLoad
             }
 
-
-
-
-
-
-
             for (i in startingRow until rowsToLoad) {
                 cursor.moveToPosition(i)
-                val dataColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA) //get column index
-                galleryImageUrls.add(GalleryPicture(cursor.getString(dataColumnIndex))) //get Image from column index
+                val dataColumnIndex =
+                    cursor.getColumnIndex(MediaStore.MediaColumns._ID) //get column index
+                galleryImageUrls.add(GalleryPicture(cursor.getString(dataColumnIndex))) //get Image path from column index
 
             }
             Log.i("TotalGallerySize", "$totalRows")
@@ -95,15 +74,26 @@ class GalleryViewModel : ViewModel() {
                     rowsToLoad = totalRows
                 else
                     rowsToLoad += rowsPerLoad
-
-
             }
 
             cursor.close()
             Log.i("PartialGallerySize", " ${galleryImageUrls.size}")
         }
-
         return galleryImageUrls
+    }
+
+    private fun getGalleryCursor(context: Context): Cursor? {
+        val externalUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val columns = arrayOf(MediaStore.MediaColumns._ID, MediaStore.MediaColumns.DATE_MODIFIED)
+        val orderBy = MediaStore.MediaColumns.DATE_MODIFIED //order data by modified
+        return context.contentResolver
+            .query(
+                externalUri,
+                columns,
+                null,
+                null,
+                "$orderBy DESC"
+            )//get all data in Cursor by sorting in DESC order
     }
 
     override fun onCleared() {

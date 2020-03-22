@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.multi_gallery_listitem.*
-import mobin.customgallery.multipicker.GlideApp
 import mobin.customgallery.multipicker.R
+import mobin.customgallery.multipicker.ui.gallery.MultiCustomGalleryUI.Companion.getImageUri
 import mobin.customgallery.multipicker.ui.gallery.model.GalleryPicture
 
 class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerView.Adapter<GVH>() {
@@ -26,7 +27,6 @@ class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerV
     private var isSelectionEnabled = false
     private lateinit var selectedIndexList: ArrayList<Int> // only limited items are selectable.
     private var selectionLimit = 0
-
 
     private fun initSelectedIndexList() {
         selectedIndexList = ArrayList(selectionLimit)
@@ -73,7 +73,8 @@ class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerV
 //    }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): GVH {
-        val vh = GVH(LayoutInflater.from(p0.context).inflate(R.layout.multi_gallery_listitem, p0, false))
+        val vh =
+            GVH(LayoutInflater.from(p0.context).inflate(R.layout.multi_gallery_listitem, p0, false))
         vh.containerView.setOnClickListener {
             val position = vh.adapterPosition
             val picture = getItem(position)
@@ -86,7 +87,6 @@ class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerV
             } else
                 onClick(picture)
 
-
         }
         vh.containerView.setOnLongClickListener {
             val position = vh.adapterPosition
@@ -95,8 +95,6 @@ class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerV
             notifyItemChanged(position)
             checkSelection(position)
             afterSelectionCompleted()
-
-
 
             isSelectionEnabled
         }
@@ -116,11 +114,9 @@ class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerV
 
             selectionCriteriaSuccess
         }
-
     }
 
     fun getSelectionLimit() = selectionLimit
-
 
     private fun selectionLimitReached(context: Context) {
         Toast.makeText(
@@ -134,7 +130,7 @@ class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerV
 
     override fun onBindViewHolder(p0: GVH, p1: Int) {
         val picture = list[p1]
-        GlideApp.with(p0.containerView).load(picture.path).into(p0.ivImg)
+        Glide.with(p0.containerView).load(getImageUri(picture.path)).into(p0.ivImg)
 
         if (picture.isSelected) {
             p0.vSelected.visibility = View.VISIBLE
@@ -145,11 +141,9 @@ class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerV
 
     override fun getItemCount() = list.size
 
-
     fun getSelectedItems() = selectedIndexList.map {
         list[it]
     }
-
 
     fun removedSelection(): Boolean {
         return if (isSelectionEnabled) {
