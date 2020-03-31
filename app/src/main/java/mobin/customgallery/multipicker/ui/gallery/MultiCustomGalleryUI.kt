@@ -25,10 +25,15 @@ import mobin.customgallery.multipicker.ui.gallery.viewmodel.GalleryViewModel
 
 class MultiCustomGalleryUI : AppCompatActivity() {
 
-    private lateinit var adapter: GalleryPicturesAdapter
-    private val galleryViewModel: GalleryViewModel by viewModels<GalleryViewModel>()
+    private val adapter by lazy {
+        GalleryPicturesAdapter(pictures, 10)
+    }
 
-    private lateinit var pictures: ArrayList<GalleryPicture>
+    private val galleryViewModel: GalleryViewModel by viewModels()
+
+    private val pictures by lazy {
+        ArrayList<GalleryPicture>(galleryViewModel.getGallerySize(this))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,10 +56,9 @@ class MultiCustomGalleryUI : AppCompatActivity() {
         // galleryViewModel = ViewModelProviders.of(this)[GalleryViewModel::class.java] /** @deprecated */
         updateToolbar(0)
         val layoutManager = GridLayoutManager(this, 3)
+        val pageSize = 20
         rv.layoutManager = layoutManager
         rv.addItemDecoration(SpaceItemDecoration(8))
-        pictures = ArrayList(galleryViewModel.getGallerySize(this))
-        adapter = GalleryPicturesAdapter(pictures, 10)
         rv.adapter = adapter
 
         adapter.setOnClickListener { galleryPicture ->
@@ -68,7 +72,7 @@ class MultiCustomGalleryUI : AppCompatActivity() {
         rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (layoutManager.findLastVisibleItemPosition() == pictures.lastIndex) {
-                    loadPictures(5)
+                    loadPictures(pageSize)
                 }
             }
         })
@@ -81,7 +85,7 @@ class MultiCustomGalleryUI : AppCompatActivity() {
         ivBack.setOnClickListener {
             onBackPressed()
         }
-        loadPictures(5)
+        loadPictures(pageSize)
     }
 
 
