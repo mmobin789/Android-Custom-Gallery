@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.multi_gallery_listitem.*
 import mobin.customgallery.multipicker.R
-import mobin.customgallery.multipicker.ui.gallery.MultiCustomGalleryUI.Companion.getImageUri
 import mobin.customgallery.multipicker.ui.gallery.model.GalleryPicture
 
 class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerView.Adapter<GVH>() {
@@ -130,7 +129,7 @@ class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerV
 
     override fun onBindViewHolder(p0: GVH, p1: Int) {
         val picture = list[p1]
-        Glide.with(p0.containerView).load(getImageUri(picture.path)).into(p0.ivImg)
+        Glide.with(p0.containerView).load(picture.path).into(p0.ivImg)
 
         if (picture.isSelected) {
             p0.vSelected.visibility = View.VISIBLE

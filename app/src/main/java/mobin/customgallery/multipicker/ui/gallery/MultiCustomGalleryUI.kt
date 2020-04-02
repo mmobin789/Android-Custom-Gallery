@@ -1,12 +1,9 @@
 package mobin.customgallery.multipicker.ui.gallery
 
 import android.Manifest
-import android.content.ContentUris
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -62,7 +59,7 @@ class MultiCustomGalleryUI : AppCompatActivity() {
         rv.adapter = adapter
 
         adapter.setOnClickListener { galleryPicture ->
-            showToast(getImageUri(galleryPicture.path).path!!)
+            showToast(galleryPicture.path)
         }
 
         adapter.setAfterSelectionListener {
@@ -135,12 +132,4 @@ class MultiCustomGalleryUI : AppCompatActivity() {
         }
     }
 
-    companion object {
-        fun getImageUri(path: String): Uri {
-            return ContentUris.withAppendedId(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                path.toLong()
-            )
-        }
-    }
 }

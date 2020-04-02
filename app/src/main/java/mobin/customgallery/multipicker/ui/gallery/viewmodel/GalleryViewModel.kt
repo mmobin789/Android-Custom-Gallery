@@ -1,5 +1,6 @@
 package mobin.customgallery.multipicker.ui.gallery.viewmodel
 
+import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
@@ -58,7 +59,7 @@ class GalleryViewModel : ViewModel() {
                 cursor.moveToPosition(i)
                 val dataColumnIndex =
                     cursor.getColumnIndex(MediaStore.MediaColumns._ID) //get column index
-                galleryImageUrls.add(GalleryPicture(cursor.getString(dataColumnIndex))) //get Image path from column index
+                galleryImageUrls.add(GalleryPicture(getImageUri(cursor.getString(dataColumnIndex)).toString())) //get Image path from column index
 
             }
             Log.i("TotalGallerySize", "$totalRows")
@@ -95,6 +96,11 @@ class GalleryViewModel : ViewModel() {
                 "$orderBy DESC"
             )//get all data in Cursor by sorting in DESC order
     }
+
+    private fun getImageUri(path: String) = ContentUris.withAppendedId(
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+        path.toLong()
+    )
 
     override fun onCleared() {
         compositeDisposable.clear()
