@@ -32,8 +32,8 @@ It can be used with in your app or as a foundation for your own android library.
  
  :camera: [Salam Planet](https://play.google.com/store/apps/details?id=com.tsmc.salamplanet.view) 
  
+ :camera: [Courioo Customer](https://play.google.com/store/apps/details?id=com.courioo.consumer.staging) 
  
-
-
-
-**Cheerio !!**
+ :camera: [Courioo Courier](https://play.google.com/store/apps/details?id=com.courioo.courier.staging)
+ 
+ :camera: [Courioo Vendor](https://play.google.com/store/apps/details?id=com.courioo.consignor.staging)
