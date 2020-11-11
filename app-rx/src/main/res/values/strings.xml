@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Custom Gallery (Multi-Picker)</string>
+    <string name="app_name">RX-Custom Gallery</string>
     <string name="txt_gallery">Gallery</string>
     <string name="txt_done">Done</string>
 </resources>
