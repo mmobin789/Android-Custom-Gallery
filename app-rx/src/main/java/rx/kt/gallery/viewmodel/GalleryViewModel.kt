@@ -27,7 +27,7 @@ class GalleryViewModel : ViewModel() {
         compositeDisposable.add(
             Single.fromCallable {
                 fetchGalleryImages(context, pageSize)
-            }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            }.subscribeOn(Schedulers.single()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     list(it)
                 }, {
