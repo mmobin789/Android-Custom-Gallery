@@ -59,7 +59,7 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glideVersion"
 
     // reactive programming for Android
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+  //  implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     // ViewModel - ktx
     implementation "androidx.fragment:fragment-ktx:1.2.5"

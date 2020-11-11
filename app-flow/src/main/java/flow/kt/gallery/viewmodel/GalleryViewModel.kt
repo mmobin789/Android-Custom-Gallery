@@ -6,34 +6,36 @@ import android.database.Cursor
 import android.provider.MediaStore
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import flow.kt.gallery.model.GalleryPicture
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import java.util.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 
 class GalleryViewModel : ViewModel() {
-    private val compositeDisposable = CompositeDisposable()
     private var startingRow = 0
     private var rowsToLoad = 0
     private var allLoaded = false
 
+
+    @ExperimentalCoroutinesApi
     fun getImagesFromGallery(
         context: Context,
         pageSize: Int,
         list: (List<GalleryPicture>) -> Unit
     ) {
-        compositeDisposable.add(
-            Single.fromCallable {
-                fetchGalleryImages(context, pageSize)
-            }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    list(it)
-                }, {
-                    it.printStackTrace()
-                })
-        )
+        viewModelScope.launch {
+            flow {
+                emit(fetchGalleryImages(context, pageSize))
+            }.catch {
+                it.printStackTrace()
+            }.collect {
+                list(it)
+            }
+        }
+
     }
 
     fun getGallerySize(context: Context): Int {
@@ -44,12 +46,11 @@ class GalleryViewModel : ViewModel() {
     }
 
     private fun fetchGalleryImages(context: Context, rowsPerLoad: Int): List<GalleryPicture> {
-        val galleryImageUrls = LinkedList<GalleryPicture>()
         val cursor = getGalleryCursor(context)
 
         if (cursor != null && !allLoaded) {
             val totalRows = cursor.count
-
+            val galleryImageUrls = ArrayList<GalleryPicture>(totalRows)
             allLoaded = rowsToLoad == totalRows
             if (rowsToLoad < rowsPerLoad) {
                 rowsToLoad = rowsPerLoad
@@ -79,8 +80,11 @@ class GalleryViewModel : ViewModel() {
 
             cursor.close()
             Log.i("PartialGallerySize", " ${galleryImageUrls.size}")
+
+            return galleryImageUrls
         }
-        return galleryImageUrls
+
+        return emptyList()
     }
 
     private fun getGalleryCursor(context: Context): Cursor? {
@@ -101,8 +105,4 @@ class GalleryViewModel : ViewModel() {
         MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
         path.toLong()
     )
-
-    override fun onCleared() {
-        compositeDisposable.clear()
-    }
 }
