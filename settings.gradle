@@ -1,1 +1,2 @@
+include ':app-flow'
 include ':app-rx'
