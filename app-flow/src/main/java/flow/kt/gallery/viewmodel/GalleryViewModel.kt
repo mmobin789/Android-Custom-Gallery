@@ -59,8 +59,17 @@ class GalleryViewModel : ViewModel() {
             for (i in startingRow until rowsToLoad) {
                 cursor.moveToPosition(i)
                 val dataColumnIndex =
-                    cursor.getColumnIndex(MediaStore.MediaColumns._ID) //get column index
-                galleryImageUrls.add(GalleryPicture(getImageUri(cursor.getString(dataColumnIndex)).toString())) //get Image path from column index
+                    cursor.getColumnIndex(MediaStore.Images.Media._ID) //get column index
+
+                val imageURI = ContentUris.withAppendedId(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    cursor.getLong(dataColumnIndex))
+
+                val path = imageURI.toString()
+
+                Log.i("ImagePath",path)
+
+                galleryImageUrls.add(GalleryPicture(path)) //get Image path from column index
 
             }
             Log.i("TotalGallerySize", "$totalRows")
@@ -101,8 +110,4 @@ class GalleryViewModel : ViewModel() {
             )//get all data in Cursor by sorting in DESC order
     }
 
-    private fun getImageUri(path: String) = ContentUris.withAppendedId(
-        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-        path.toLong()
-    )
 }
