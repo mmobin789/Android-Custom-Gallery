@@ -24,7 +24,7 @@ It can be used with in your app or as a foundation for your own android library.
  
  ## Best Practice
     
- This project includes below 2 modules which contain seperate implementations for custom gallery based on RxJava and Kotlin Flow API use one at a time.
+ This project includes below 2 modules which contain separate implementations for custom gallery based on RxJava and Kotlin Flow API use one at a time.
 
  **Tip:** 
  If you are a newbie choose the **app-flow** module as its Kotlin latest based on built-in Flow API else if your app uses rx-java then choose **app-rx** module.

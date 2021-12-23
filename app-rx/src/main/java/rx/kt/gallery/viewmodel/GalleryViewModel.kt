@@ -11,7 +11,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import rx.kt.gallery.model.GalleryPicture
-import java.util.*
+import java.util.LinkedList
 
 class GalleryViewModel : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
@@ -51,16 +51,20 @@ class GalleryViewModel : ViewModel() {
             val totalRows = cursor.count
 
             allLoaded = rowsToLoad == totalRows
+
             if (rowsToLoad < rowsPerLoad) {
                 rowsToLoad = rowsPerLoad
+            }
+
+            if (totalRows < rowsPerLoad) {
+                rowsToLoad = totalRows
             }
 
             for (i in startingRow until rowsToLoad) {
                 cursor.moveToPosition(i)
                 val dataColumnIndex =
-                    cursor.getColumnIndex(MediaStore.MediaColumns._ID) //get column index
-                galleryImageUrls.add(GalleryPicture(getImageUri(cursor.getString(dataColumnIndex)).toString())) //get Image path from column index
-
+                    cursor.getColumnIndex(MediaStore.MediaColumns._ID) // get column index
+                galleryImageUrls.add(GalleryPicture(getImageUri(cursor.getString(dataColumnIndex)).toString())) // get Image path from column index
             }
             Log.i("TotalGallerySize", "$totalRows")
             Log.i("GalleryStart", "$startingRow")
@@ -86,7 +90,7 @@ class GalleryViewModel : ViewModel() {
     private fun getGalleryCursor(context: Context): Cursor? {
         val externalUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val columns = arrayOf(MediaStore.MediaColumns._ID, MediaStore.MediaColumns.DATE_MODIFIED)
-        val orderBy = MediaStore.MediaColumns.DATE_MODIFIED //order data by modified
+        val orderBy = MediaStore.MediaColumns.DATE_MODIFIED // order data by modified
         return context.contentResolver
             .query(
                 externalUri,
@@ -94,7 +98,7 @@ class GalleryViewModel : ViewModel() {
                 null,
                 null,
                 "$orderBy DESC"
-            )//get all data in Cursor by sorting in DESC order
+            ) // get all data in Cursor by sorting in DESC order
     }
 
     private fun getImageUri(path: String) = ContentUris.withAppendedId(

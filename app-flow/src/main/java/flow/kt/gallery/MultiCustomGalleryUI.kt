@@ -19,7 +19,6 @@ import flow.kt.gallery.viewmodel.GalleryViewModel
 import kotlinx.android.synthetic.main.activity_multi_gallery_ui.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-
 class MultiCustomGalleryUI : AppCompatActivity() {
 
     private val adapter by lazy {
@@ -53,7 +52,7 @@ class MultiCustomGalleryUI : AppCompatActivity() {
         // galleryViewModel = ViewModelProviders.of(this)[GalleryViewModel::class.java] /** @deprecated */
         updateToolbar(0)
         val layoutManager = GridLayoutManager(this, 3)
-        val pageSize = 20
+        val pageSize = 10
         rv.layoutManager = layoutManager
         rv.addItemDecoration(SpaceItemDecoration(8))
         rv.adapter = adapter
@@ -76,7 +75,6 @@ class MultiCustomGalleryUI : AppCompatActivity() {
 
         tvDone.setOnClickListener {
             super.onBackPressed()
-
         }
 
         ivBack.setOnClickListener {
@@ -84,7 +82,6 @@ class MultiCustomGalleryUI : AppCompatActivity() {
         }
         loadPictures(pageSize)
     }
-
 
     private fun getSelectedItemsCount() = adapter.getSelectedItems().size
 
@@ -132,5 +129,4 @@ class MultiCustomGalleryUI : AppCompatActivity() {
             super.onBackPressed()
         }
     }
-
 }

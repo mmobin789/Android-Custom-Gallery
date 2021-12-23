@@ -82,10 +82,8 @@ class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerV
                 notifyItemChanged(position)
                 checkSelection(position)
                 afterSelectionCompleted()
-
             } else
                 onClick(picture)
-
         }
         vh.containerView.setOnLongClickListener {
             val position = vh.adapterPosition
@@ -153,7 +151,6 @@ class GalleryPicturesAdapter(private val list: List<GalleryPicture>) : RecyclerV
             selectedIndexList.clear()
             notifyDataSetChanged()
             true
-
         } else false
     }
 }
